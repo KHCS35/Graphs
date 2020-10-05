@@ -41,12 +41,18 @@ class Graph:
         visited = set()
 
         #initialize
-        q.push(starting_vertex)
+        q.enqueue(starting_vertex)
 
         while q.size() > 0:
-            v = q.pop()
+            v = q.dequeue()
             if v not in visited:
+                #printing to show we "visited" the node
                 print(v)
+                #adding that node to the visited set
+                visited.add(v)
+
+                for n in self.get_neighbors(v):
+                    q.enqueue(n)
 
     def dft(self, starting_vertex):
         """
