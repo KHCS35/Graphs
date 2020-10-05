@@ -20,20 +20,33 @@ class Graph:
         """
         Add a directed edge to the graph.
         """
-        pass  # TODO
+        if v1 in self.vertices and v2 in self.vertices:
+            self.vertices[v1].add(v2)
+        else:
+            raise IndexError("That vertex doesn't exist.")
+        # pass
 
     def get_neighbors(self, vertex_id):
         """
         Get all neighbors (edges) of a vertex.
         """
-        pass  # TODO
+        return self.vertices[vertex_id]
 
     def bft(self, starting_vertex):
         """
         Print each vertex in breadth-first order
         beginning from starting_vertex.
         """
-        pass  # TODO
+        q = Queue()
+        visited = set()
+
+        #initialize
+        q.push(starting_vertex)
+
+        while q.size() > 0:
+            v = q.pop()
+            if v not in visited:
+                print(v)
 
     def dft(self, starting_vertex):
         """
