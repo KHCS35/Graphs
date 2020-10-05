@@ -14,7 +14,6 @@ class Graph:
         Add a vertex to the graph.
         """
         self.vertices[vertex_id] = set()
-        pass  # TODO
 
     def add_edge(self, v1, v2):
         """
@@ -95,7 +94,34 @@ class Graph:
         starting_vertex to destination_vertex in
         breath-first order.
         """
-        pass  # TODO
+        # Create an empty queue and enqueue A PATH TO the starting vertex ID
+        print("BFS:")
+        q = Queue()
+        q.enqueue([starting_vertex])
+		# Create a Set to store visited vertices
+        visited = set()
+		# While the queue is not empty...
+        while q.size() > 0:
+			# Dequeue the first PATH
+            v = q.dequeue()
+			# Grab the last vertex from the PATH
+            last_v = v[-1]
+			# If that vertex has not been visited...
+            if last_v not in visited:
+				# CHECK IF IT'S THE TARGET
+                if last_v == destination_vertex:
+				  # IF SO, RETURN PATH
+                    return v
+                else:
+				# Mark it as visited...
+                    visited.add(last_v)
+                    # print(visited)
+				# Then add A PATH TO its neighbors to the back of the queue
+                for n in self.get_neighbors(last_v):
+                    new_path = v + [n]
+				  # COPY THE PATH
+                    q.enqueue(new_path)
+				  # APPEND THE NEIGHOR TO THE BACK
 
     def dfs(self, starting_vertex, destination_vertex):
         """
