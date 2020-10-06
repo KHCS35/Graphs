@@ -36,7 +36,7 @@ class Graph:
         Print each vertex in breadth-first order
         beginning from starting_vertex.
         """
-        print("BFT:")
+        # print("BFT:")
         q = Queue()
         visited = set()
 
@@ -59,7 +59,7 @@ class Graph:
         Print each vertex in depth-first order
         beginning from starting_vertex.
         """
-        print("DFT:")
+        # print("DFT:")
         q = Stack()
         visited = set()
 
@@ -89,7 +89,7 @@ class Graph:
         if visited is None:
             visited = set()
 
-        print("DFT_RECURSIVE")
+        # print("DFT_RECURSIVE")
         print(starting_vertex)
         visited.add(starting_vertex)
 
