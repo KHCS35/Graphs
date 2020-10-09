@@ -37,8 +37,8 @@ world = World()
 
 # You may uncomment the smaller graphs for development and testing purposes.
 # map_file = "maps/test_line.txt"
-map_file = "maps/test_cross.txt"
-# map_file = "maps/test_loop.txt"
+# map_file = "maps/test_cross.txt"
+map_file = "maps/test_loop.txt"
 # map_file = "maps/test_loop_fork.txt"
 # map_file = "maps/main_maze.txt"
 
@@ -140,51 +140,85 @@ def dft():
     visited = set()
 
     while q.size() > 0:
-        print(map)
-        v = q.pop()
-        # print(v)
+        print(f"traversal_path: {traversal_path}")
+        print(f"visited: {visited}")
+        if len(visited) == len(room_graph):
+            break
 
-        #if we haven't yet visited it
-        if v not in visited:
-            visited.add(v)
-            initialize_room(v)
-            # print(map)
+        print(map)
+        current = q.pop()
+        # print(v)
+        if current in visited:
+            #move player back
+            if len(reverse_path) > 0:
+                player.travel(reverse_path[-1])
+                v = reverse_path.pop()
+                traversal_path.append(v)
+        elif current not in visited:
+            q.push(current)
+            #check if map already has room:
+            if current not in map:
+                initialize_room(current)
+            else:
+                #grab all unvisited rooms
+                for d in map[current]:
+            # print(d)
+                    if map[current][d] == '?':
+                        unexplored_rooms.append(d)
+                if len(unexplored_rooms) == 0:
+                    visited.add(current)
+                    continue
+
+                random.shuffle(unexplored_rooms)
+                rand_direction = unexplored_rooms[0]
+                print(f"Random direction: {rand_direction}")
+                player.travel(rand_direction)
+
+                if player.current_room.id not in visited:
+                    initialize_room(player.current_room.id)
+                #setting each direction to a room code
+                map[current][rand_direction] = player.current_room.id
+                map[player.current_room.id][reverse_directions[rand_direction]] = current
+                #appending paths
+                # print(f"Traversal Path: {traversal_path}")
+                traversal_path.append(rand_direction)
+                reverse_path.append(reverse_directions[rand_direction])
+                # print(f"reverse path: {reverse_path}")
+                unexplored_rooms = []
+                # print(map)
+                q.push(player.current_room.id)
+
+            #check for any unexplored exits
+
         #if our exits have any unexplored paths
-        num_of_unex = 0
-        for d in map[v]:
-            if map[v][d] == '?':
-                # print(f"count of default value: {map[v][d].count('?')}")
-                unexplored_rooms.append(d)
-            # print(f"thingy: {map[v][d]}")
-            num_of_unex += map[v][d].count('?')
-            # print(num_of_unex)
+        # unex = []
+        
         
         #if this triggers then we've already explored the exits here
-        if num_of_unex == 0:
-            player.travel(reverse_path[-1])
-            q.push(player.current_room.id)
-            num_of_unex = 0
+        # if len(unexplored_rooms) == 0:
+        #     player.travel(reverse_path[-1])
+        #     q.push(player.current_room.id)
+        #     visited.add(current)
         #else, we still have rooms to explore:
-        else:
-            random.shuffle(unexplored_rooms)
-            rand_direction = unexplored_rooms[0]
-            print(f"Random direction: {rand_direction}")
-            player.travel(rand_direction)
-            if player.current_room.id not in visited:
-                initialize_room(player.current_room.id)
-            # print(v)
-            print(map)
-            map[v][rand_direction] = player.current_room.id
-            map[player.current_room.id][reverse_directions[rand_direction]] = v
-            traversal_path.append(rand_direction)
-            reverse_path.append(reverse_directions[rand_direction])
-            # print(f"reverse path: {reverse_path}")
-            unexplored_rooms = []
-            # print(map)
-            q.push(player.current_room.id)
-        
-        if len(traversal_path) == len(room_graph):
-            return
+        # else:
+            # random.shuffle(unexplored_rooms)
+            # rand_direction = unexplored_rooms[0]
+            # print(f"Random direction: {rand_direction}")
+            # player.travel(rand_direction)
+
+            # if player.current_room.id not in visited:
+            #     initialize_room(player.current_room.id)
+            # #setting each direction to a room code
+            # map[current][rand_direction] = player.current_room.id
+            # map[player.current_room.id][reverse_directions[rand_direction]] = current
+            # #appending paths
+            # # print(f"Traversal Path: {traversal_path}")
+            # traversal_path.append(rand_direction)
+            # reverse_path.append(reverse_directions[rand_direction])
+            # # print(f"reverse path: {reverse_path}")
+            # unexplored_rooms = []
+            # # print(map)
+            # q.push(player.current_room.id)
         
         # print(unexplored_rooms)
 
