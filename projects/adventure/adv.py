@@ -140,7 +140,7 @@ def dft():
     visited = set()
 
     while q.size() > 0:
-
+        print(map)
         v = q.pop()
         # print(v)
 
@@ -155,7 +155,7 @@ def dft():
             if map[v][d] == '?':
                 # print(f"count of default value: {map[v][d].count('?')}")
                 unexplored_rooms.append(d)
-            print(f"thingy: {map[v][d]}")
+            # print(f"thingy: {map[v][d]}")
             num_of_unex += map[v][d].count('?')
             # print(num_of_unex)
         
@@ -170,12 +170,17 @@ def dft():
             rand_direction = unexplored_rooms[0]
             print(f"Random direction: {rand_direction}")
             player.travel(rand_direction)
+            if player.current_room.id not in visited:
+                initialize_room(player.current_room.id)
+            # print(v)
+            print(map)
             map[v][rand_direction] = player.current_room.id
+            map[player.current_room.id][reverse_directions[rand_direction]] = v
             traversal_path.append(rand_direction)
             reverse_path.append(reverse_directions[rand_direction])
             # print(f"reverse path: {reverse_path}")
             unexplored_rooms = []
-            print(map)
+            # print(map)
             q.push(player.current_room.id)
         
         if len(traversal_path) == len(room_graph):
