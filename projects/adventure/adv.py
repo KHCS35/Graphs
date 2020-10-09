@@ -86,6 +86,8 @@ My Game-Plan:
 [X]Create an empty graph
 [X]Create a function that takes the current room id, and it's possible exits
 and adds them to a graph in the right format.
+[]Create a function that can tell if the current room has any unexplored
+areas
 []Create a breadth first search that checks the rooms in my graph for
 any unexplored locals.
 '''
@@ -106,14 +108,49 @@ def initialize_room(room_id):
         exits_obj[direction] = '?'
     map[room_id] = exits_obj
 
-# initialize_room(0)
+def has_unexplored(room_id):
+    current = map[room_id]
+    #output for room 0: {'n': '?', 's': '?', 'w': '?', 'e': '?'}
+    for direction in current:
+        if current[direction] == '?':
+            return direction
+    # print(current)
+
+
+initialize_room(0)
 # print(map)
+# has_unexplored(0)
 #Result: {0: {'n': '?', 's': '?', 'w': '?', 'e': '?'}}
+
+# Create a breadth first search that checks the rooms in my graph for
+# any unexplored locals.
+
+# print(len(room_graph))
+
+def dft():
     
+    q = Stack()
+    q.push(player.current_room.id)
 
+    while q.size() > 0:
 
+        v = q.pop()
+        print(v)
 
+        if v not in map:
+            initialize_room(v)
+            print(map)
+        
+        #now we need to travel
+        for d in map[v]:
+            if d == '?':
+                new_room = player.travel(d)
+                print("hi")
+                print(new_room)
+                
 
+print(map)
+dft()
 
 # TRAVERSAL TEST
 visited_rooms = set()
