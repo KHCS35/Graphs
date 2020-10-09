@@ -55,32 +55,6 @@ player = Player(world.starting_room)
 # traversal_path = ['n', 'n']
 traversal_path = []
 
-map = {}
-print(f"Current Room Id: {player.current_room.id}")
-print(f"Current Exits: {player.current_room.get_exits()}")
-
-def initialize_room(id, exits):
-    #id is the current room id
-    #exits comes in as a list
-    #create the exits object
-    possible_exits = {}
-    #assign each exit the the default value of '?'
-    for exit in exits:
-        possible_exits[exit] = '?'
-    
-    map[id] = possible_exits
-
-    return map
-
-print(initialize_room(player.current_room.id, player.current_room.get_exits()))
-
-
-def traverse():
-    #choose a direction to check at random
-    rand_direction = random.randint(1, 4)
-
-
-
 
 # TRAVERSAL TEST
 visited_rooms = set()
