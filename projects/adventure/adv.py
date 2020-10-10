@@ -38,9 +38,9 @@ world = World()
 # You may uncomment the smaller graphs for development and testing purposes.
 # map_file = "maps/test_line.txt"
 # map_file = "maps/test_cross.txt"
-map_file = "maps/test_loop.txt"
+# map_file = "maps/test_loop.txt"
 # map_file = "maps/test_loop_fork.txt"
-# map_file = "maps/main_maze.txt"
+map_file = "maps/main_maze.txt"
 
 # Loads the map into a dictionary
 room_graph=literal_eval(open(map_file, "r").read())
@@ -140,13 +140,14 @@ def dft():
     visited = set()
 
     while q.size() > 0:
-        print(f"traversal_path: {traversal_path}")
+        print(f"traversal_path: {len(traversal_path)}")
         print(f"visited: {visited}")
         if len(visited) == len(room_graph):
             break
 
         print(map)
         current = q.pop()
+        print(f"CURRENT: {current}")
         # print(v)
         if current in visited:
             #move player back
@@ -159,6 +160,7 @@ def dft():
             #check if map already has room:
             if current not in map:
                 initialize_room(current)
+                print(map)
             else:
                 #grab all unvisited rooms
                 for d in map[current]:
@@ -171,14 +173,14 @@ def dft():
 
                 random.shuffle(unexplored_rooms)
                 rand_direction = unexplored_rooms[0]
-                print(f"Random direction: {rand_direction}")
+                # print(f"Random direction: {rand_direction}")
                 player.travel(rand_direction)
 
-                if player.current_room.id not in visited:
-                    initialize_room(player.current_room.id)
+                # if player.current_room.id not in visited:
+                #     initialize_room(player.current_room.id)
                 #setting each direction to a room code
                 map[current][rand_direction] = player.current_room.id
-                map[player.current_room.id][reverse_directions[rand_direction]] = current
+                # map[player.current_room.id][reverse_directions[rand_direction]] = current
                 #appending paths
                 # print(f"Traversal Path: {traversal_path}")
                 traversal_path.append(rand_direction)
